@@ -19,8 +19,6 @@ void my_swap(int x, int y) // a = 3 , x = 3, b = 10, y = 10
 	int tmp = x;
 	x = y;
 	y = tmp;
-	
-	// x = 10, y = 3
 }
 
 int main()
