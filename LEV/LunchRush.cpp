@@ -5,36 +5,33 @@ using namespace std;
 #define intl long long int 
 #define def 10000
 
-int main (void)
+int main(void)
 {
-    intl n, k;
+    intl n, k, f[def], tmp[def], t[def];
     cin >> n >> k;
 
-    intl f[def], t[def], joy[def];
+    for(int i = 0; i < n; i++){
+        cin >> f[i] >> tmp[i];
 
-    for(int i = 0; i < n; i++)
-    {
-        cin >> f[i] >> t[i];
+        // set the main t array 
+        if(t[f[i]] == 0) 
+            t[f[i]] = tmp[i]; // exmp => i = 2; f = 7; t[f[i]] = t[7]
+        else if(t[f[i]] != 0 and tmp[i] < t[f[i]])
+            t[f[i]] = tmp[i]; 
+        else
+            continue;
+    }
+    
+    sort(f, f + 1);
+    intl ans = 0, rest = f[n] - (t[f[n]] - k);
+
+    while(n--){
+        if(t[f[n]] > k and ans < rest) // t > k
+            ans = rest;
+        else if(t[f[n]] <= k and ans < f[n]) // t < k
+            ans = f[n];
     }
 
-
-    for(int i = 0; i < n + 10; i++)
-    {
-        if(t[i] > k)
-            joy[i] = f[i] - (t[i] - k);
-        else if(t[i] <= k)
-            joy[i] = f[i];
-    }
-
-    intl max = -100;
-
-    for(int i = 0; i < n; i++)
-    {
-        if(joy[i] > max)
-            max = joy[i];
-    }
-
-    cout << max << endl;
-
+    cout << ans;
 }
 
