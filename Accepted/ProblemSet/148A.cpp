@@ -9,8 +9,6 @@ int main (void)
     intl a[4], d;
     for(intl i = 0; i < 4; i++)
         cin >> a[i];
-    
-
     cin >> d;
 
     for(intl i = 0; i < 4; i++){
