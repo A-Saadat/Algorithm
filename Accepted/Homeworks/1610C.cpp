@@ -1,7 +1,7 @@
 #include <bits/stdc++.h> 
 using namespace std; 
 
-#define def 1000
+#define def 10000000 
 #define forn(i,n) for(int i=0;i<n;i++) 
 #define fort(itr,map) for(auto itr = map.begin(); itr != map.end(); ++itr) 
 #define msi map<string, int> 
@@ -19,39 +19,38 @@ typedef vector<string> vs;
 typedef vector<bool> vb; 
 typedef vector<double> vd; 
 
-msi freq;
-string a[def][def];
-intl score[def];
+vpii a;
 
 int main (void)
 {
     intl t; cin >> t;
-
     while(t--){
-        freq.clear();
-        forn(i,3) score[i] = 0;
+        a.clear();
 
         intl n; cin >> n;
 
-        forn(i,3){
-            forn(j,n){
-                cin >> a[i][j];
-                string tmp = a[i][j];
-
-                freq[tmp]++;
-            }
+        forn(i,n){
+            intl x, y;
+            cin >> x >> y;
+            a.pb(mp(x,y));
         }
 
-        forn(i,3){
-            forn(j,n){
-                string tmp = a[i][j];
+        intl L = -1, R = n + 1;
+        while(R - L > 1){
+            intl MID = L + ((R - L) / 2);
+            intl p = 0;
 
-                if(freq[tmp] == 1) score[i] += 3;
-                elif(freq[tmp] == 2) score[i] += 1;
+            forn(i,n){
+                intl x = a[i].F, y = a[i].S;
+
+                if((MID - x - 1 <= p) and (p <= y)) p++;
             }
+
+            if(p < MID) R = MID;
+            elif(p >= MID) L = MID;
         }
 
-        forn(i,3) cout << score[i] << ' ';
-        cout << endl;
-    }
+        cout << L << endl;
+
+    }   
 }
