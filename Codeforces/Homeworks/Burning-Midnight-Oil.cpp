@@ -2,7 +2,7 @@
 using namespace std; 
 
 #define def 10000000 
-#define forn(i,n) for(int i=0;i<n;i++) 
+#define forn(i,k,n) for(int i=k;i<n;i++) 
 #define fort(itr,map) for(auto itr = map.begin(); itr != map.end(); ++itr) 
 #define msi map<string, int> 
 #define mci map<char, int> 
@@ -20,30 +20,29 @@ typedef vector<string> vs;
 typedef vector<bool> vb; 
 typedef vector<double> vd; 
 
-ll a[def];
+ll n, k;
 
 int main (void)
 {
-    ll t; cin >> t;
+    cin >> n >> k;
 
-    while(t--){
-        ll n; cin >> n;
-        forn(i,n) cin >> a[i];
-
-        ll L = 0, R = a[n - 1];
-        while(R - L > 1){
-            ll MID = L + ((R - L) / 2);
-
-            for(ll i = n - 1; i >= 2; i++){
-                ll d = (a[i] - MID) / 3;
-
-                if(MID > a[i]) break;
-
-                a[i] -= (3 * d);
-            }
-
+    ll L = -1, R = n;
+    while(R - L > 1){
+        ll tmp = k;
+        ll V = (R + L) / 2;
+        
+        ll sum = 0;
+        while((V / tmp) > 0){
+            sum += V / tmp; 
+            tmp *= k;
         }
+
+        sum += V;
+
+        if(sum >= n) R = V;
+        elif(sum < n) L = V;
+
     }
 
-
+    cout << R;
 }
