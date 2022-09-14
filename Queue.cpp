@@ -1,8 +1,8 @@
 #include <bits/stdc++.h> 
 using namespace std; 
 
-#define def 10000000 
-#define forn(i,n) for(int i=0;i<n;i++) 
+#define def 10000 
+#define forn(i,k,n) for(int i=k;i<n;i++) 
 #define pb push_back 
 #define F first 
 #define S second 
@@ -16,27 +16,21 @@ typedef vector<string> vs;
 typedef vector<bool> vb; 
 typedef vector<double> vd; 
 
-string Binary(int x) {
-    string t;
-    while(x > 0){
-        if(x % 2 == 0)
-            t += "0";
-        else
-            t += "1";
-
-        x /= 2;
-    }
-
-    intl size = t.size();
-
-    string ans;
-    for(intl i = size; i >= 0; i--)
-        ans += t[i];
-
-    return ans;
-}
+intl a[def];
+intl sum[def];
 
 int main (void)
 {
+    intl n; cin >> n;
+    forn(i,1,(n + 1)) cin >> a[i];
+    sort(a, a + n);
 
+    forn(i,1,(n + 1)) sum[i] = sum[i - 1] + a[i]; // array Sum
+    
+    intl cnt = 0;
+    forn(i,1,(n + 1)){
+        if(sum[i - 1] <= a[i]) cnt++;
+    }
+
+    cout << cnt;
 }
