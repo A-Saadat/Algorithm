@@ -2,12 +2,10 @@
 using namespace std; 
 
 #define def 10000000 
-#define forn(i,k,n) for(int i = k; i < n; i++) 
-#define forb(i,n,k) for(int i = (n - 1); i < k; i--) 
+#define forn(i,k,n) for(int i=k;i<n;i++) 
 #define fort(itr,map) for(auto itr = map.begin(); itr != map.end(); ++itr) 
 #define msi map<string, int> 
 #define mci map<char, int> 
-#define mll map<ll, ll> 
 #define si set<int> 
 #define pb push_back 
 #define F first 
@@ -22,22 +20,32 @@ typedef vector<pii> vpii;
 typedef vector<string> vs; 
 typedef vector<bool> vb; 
 typedef vector<double> vd; 
-typedef vector<char> vcc; 
 
-const ll LIMIT = 1e8; 
-ll a[def], sum[def], cnt[def];
+ll a[100][100];
+
+const ll LIMIT = pow((5 * 1e5), 2) + 1;
 
 int main (void)
 {
-    ll n; cin >> n;
-    forn(i,0,n) cin >> a[i];
-    forn(i,0,n) sum[i] = sum[i - 1] + a[i];
+    ll n, m, k; cin >> n >> m >> k;
 
-    ll ans = 0, k = sum[n - 1] / 3;
-    if((k * 3) % 3 != 0) {cout << 0; return 0;}
-    forn(i,0,n) if(sum[i] == k) ++cnt[i];
+    if(n == 1 or m == 1){
+        cout << k;
+        return 0;
+    }
 
-    for(int i = n-2 ; i >= 0 ; --i) cnt[i] += cnt[i+1];
+    ll L = -1, R = LIMIT;
+    while(R - L > 1){
+        ll MID = (R + L) / 2;
 
-    cout << ans;
-}   
+        ll sum = 0;
+        forn(i,1,(n + 1)){
+            sum += min(((MID - 1) / i), m);
+        }
+
+        if(sum >= k) R = MID;
+        elif(sum < k) L = MID;
+    }
+
+    cout << L;
+}

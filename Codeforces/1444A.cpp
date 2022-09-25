@@ -25,19 +25,18 @@ typedef vector<double> vd;
 typedef vector<char> vcc; 
 
 const ll LIMIT = 1e8; 
-ll a[def], sum[def], cnt[def];
 
 int main (void)
-{
-    ll n; cin >> n;
-    forn(i,0,n) cin >> a[i];
-    forn(i,0,n) sum[i] = sum[i - 1] + a[i];
+{   
+    ll t; cin >> t;
 
-    ll ans = 0, k = sum[n - 1] / 3;
-    if((k * 3) % 3 != 0) {cout << 0; return 0;}
-    forn(i,0,n) if(sum[i] == k) ++cnt[i];
-
-    for(int i = n-2 ; i >= 0 ; --i) cnt[i] += cnt[i+1];
-
-    cout << ans;
-}   
+    while(t--){
+        ll p, q; cin >> p >> q;
+        ll tmp = p + 1;
+        while(tmp--){
+            cout << tmp << ' ';
+            if(tmp % p == 0 and tmp % q != 0) break;
+        }
+        cout << tmp << endl;
+    }
+}

@@ -24,20 +24,29 @@ typedef vector<bool> vb;
 typedef vector<double> vd; 
 typedef vector<char> vcc; 
 
-const ll LIMIT = 1e8; 
-ll a[def], sum[def], cnt[def];
+const ll LIMIT = 1e6; 
+
+ll isPrime[def];
+void PrimeNum(ll x){
+    for(ll i = 2; i <= x; i++){
+        for(ll j = i * i; j <= x; j+=i){
+            isPrime[j] = true;
+        }
+    }
+}
 
 int main (void)
 {
     ll n; cin >> n;
-    forn(i,0,n) cin >> a[i];
-    forn(i,0,n) sum[i] = sum[i - 1] + a[i];
+    PrimeNum(LIMIT);
 
-    ll ans = 0, k = sum[n - 1] / 3;
-    if((k * 3) % 3 != 0) {cout << 0; return 0;}
-    forn(i,0,n) if(sum[i] == k) ++cnt[i];
+    ll x = n / 2;
+    while(true){
+        if(isPrime[x] and isPrime[n - x]){
+            cout << x << ' ' << n - x;
+            return 0;
+        }
+        else ++x;
+    }
 
-    for(int i = n-2 ; i >= 0 ; --i) cnt[i] += cnt[i+1];
-
-    cout << ans;
-}   
+}

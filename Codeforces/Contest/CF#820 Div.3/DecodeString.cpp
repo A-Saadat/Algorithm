@@ -27,7 +27,7 @@ const ll LIMIT = 1e8;
 vci ans;
 vcc a(def);
 
-char Alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+const char Alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
 int main (void)
 {
@@ -39,21 +39,16 @@ int main (void)
 
         forn(i,0,n) cin >> a[i];
 
-        forn(i,0,n){
-            if(i + 2 < n and a[i] != '0'){
-                if(a[i + 2] == '0'){
-                    ll x = (a[i] - 48) * 10 + (a[i + 1] - 48);
-                    ans.pb(x);
-                    i += 2;
-                }
-
+        for(ll i = n - 1; i >= 0; i--){
+            if(a[i] == '0'){
+                ll x = (a[i - 2] - 48) * 10 + a[i - 1] - 48;
+                ans.pb(x);
+                i -= 2;
             }
-
-
-            if(a[i + 2] != '0' && a[i] != '0'){
-                ans.pb(a[i] - 48);
-            }
+            elif(a[i] != '0') ans.pb(a[i] - 48);
         }
+
+        reverse(ans.begin(), ans.end());
 
         forn(i,0,ans.size()) cout << Alphabet[ans[i] - 1];
         cout << endl;

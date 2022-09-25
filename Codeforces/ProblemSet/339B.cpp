@@ -1,11 +1,13 @@
 #include <bits/stdc++.h> 
 using namespace std; 
 
-#define def 10000000 
-#define forn(i,k,n) for(int i=k;i<n;i++) 
+#define def 1000000
+#define forn(i,k,n) for(int i = k; i < n; i++) 
+#define forb(i,n,k) for(int i = (n - 1); i < k; i--) 
 #define fort(itr,map) for(auto itr = map.begin(); itr != map.end(); ++itr) 
 #define msi map<string, int> 
 #define mci map<char, int> 
+#define mll map<ll, ll> 
 #define si set<int> 
 #define pb push_back 
 #define F first 
@@ -22,24 +24,23 @@ typedef vector<bool> vb;
 typedef vector<double> vd; 
 typedef vector<char> vcc; 
 
-const ll LIMIT = 1e5; 
+const ll LIMIT = 1e8; 
 ll a[def];
+ll ans, maxi;
 
 int main (void)
 {
     ll n, m; cin >> n >> m;
-    forn(i,1,def){
-        a[i] = LIMIT;
-    }
-
     forn(i,1,(m + 1)) cin >> a[i];
-    sort(a + 1, a + m + 1);
 
-    ll mini = a[n] - a[1];
-    forn(i,1,m+1){
-        mini = min(mini, a[i + m] - a[i]);
-        cout << a[i] << ' ' << a[i + m - 1] << endl;
+    forn(i,1,(m + 1)){
+        if(a[i] >= maxi) ans += a[i] - maxi;
+        elif(a[i] < maxi) ans += a[i] + (n - maxi);
+        
+            
+
+        maxi = a[i];
     }
 
-    // cout << mini;
+    cout << ans - 1;
 }
