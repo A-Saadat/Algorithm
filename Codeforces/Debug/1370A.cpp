@@ -13,6 +13,7 @@ using namespace std;
 #define F first 
 #define S second 
 #define mp make_pair 
+#define gcd __gcd 
 #define elif else if 
 typedef long long int ll; 
 typedef int64_t i64; 
@@ -27,9 +28,6 @@ typedef vector<char> vcc;
 const ll LIMIT = 1e8; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-ll a[def];
-ll Counter[def];
-
 int main (void)
 {
     ios_base::sync_with_stdio(false);
@@ -37,29 +35,15 @@ int main (void)
     ll t; cin >> t;
     while(t--){
         ll n; cin >> n;
-        forn(i,0,n) cin >> a[i];
-        forn(i,0,n) Counter[a[i]] = 0;
-        forn(i,0,n) Counter[a[i]]++;
 
-        ll L = -1, R = LIMIT;
-        while(R - L > 1){
-            bool isOk = false;
-            ll cnt = 0;
-            ll MID = (R + L) / 2;
-
-            forn(i,0,n){
-                if(Counter[a[i]] >= MID) isOk = true;
-                if(Counter[a[i]] == 1) cnt++;
+        ll maxi = -1;
+        forn(i,0,(n - 1)){
+            forn(j,i + 1,(n - 1)){
+                ll x = gcd(i, j);
+                maxi = max(x, maxi);
             }
-
-            if(cnt >= MID && isOk) L = MID;
-            else R = MID;
         }
 
-        cout << L << endl;
+        cout << maxi << endl;
     }
 }
-
-
-// ! Debug Hint:
-// ? مشکل اینه که تو. برای پیدا کردن اعضای گروه متمایز ها، درنظر نگرفتی که ممکنه از اعضای گروه تکراری ها هم استفاده کنی :)
