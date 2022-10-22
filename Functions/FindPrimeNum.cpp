@@ -8,8 +8,8 @@ using namespace std;
 #define S second 
 #define mp make_pair 
 #define elif else if 
-typedef long long int intl; 
-typedef vector<intl> vci;
+typedef long long int ll; 
+typedef vector<ll> vci;
 typedef pair<int,int> pii; 
 typedef vector<pii> vpii; 
 typedef vector<string> vs; 
@@ -20,8 +20,8 @@ vci findPrime(int x){
     bool notPrime[def];
     vci primeNum;
 
-    for(intl i = 2; i <= x; i++){
-        for(intl j = i * i; j <= x; j+=i){
+    for(ll i = 2; i <= x; i++){
+        for(ll j = i * i; j <= x; j+=i){
             notPrime[j] = true;
         }
     }
