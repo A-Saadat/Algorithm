@@ -28,40 +28,39 @@ typedef vector<char> vcc;
 const ll def = 1e6; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-string Binary(int x) {
-    string t;
-    while(x > 0){
-        if(x % 2 == 0)
-            t += "0";
-        else
-            t += "1";
+vci findPrime(int x){
+    bool notPrime[def];
+    vci primeNum;
 
-        x /= 2;
+    for(ll i = 2; i * i <= x; i++){
+        for(ll j = i * i; j <= x; j+=i){
+            notPrime[j] = true;
+        }
     }
+    forn(i,2,x) if(!notPrime[i]) primeNum.pb(i);
 
-    ll size = t.size();
-
-    string ans;
-    for(ll i = size; i >= 0; i--)
-        ans += t[i];
-
-    return ans;
+    return primeNum;
 }
 
-ll Binary_to_int(vci s){
-    ll n = s.size();
-    ll ans = 0;
-    reverse(s.begin(), s.end()--);
-    forn(i,0,n)
-        if(s[i] == 1) ans += pow(2, i);
-
-    return ans;
-}
-
+vci Prime, ans;
 
 int main (void)
 {IOS;
 
-    cout << Binary_to_int(a);
+    ll n, k; cin >> n >> k;
+
+    ll cnt = 1, i = 2;
+    while(i < n && cnt < k){
+        while(n % i == 0 && cnt < k && n > 0 && n != i) n /= i, cnt++, ans.pb(i);
+        ++i;
+    }
+
+    if(cnt < k){
+        cout << -1;
+        return 0;
+    }
+
+    forn(i,0,k - 1) cout << ans[i] << ' ';
+    cout << n;
 
 }

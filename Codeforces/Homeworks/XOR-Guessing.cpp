@@ -28,40 +28,22 @@ typedef vector<char> vcc;
 const ll def = 1e6; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-string Binary(int x) {
-    string t;
-    while(x > 0){
-        if(x % 2 == 0)
-            t += "0";
-        else
-            t += "1";
-
-        x /= 2;
-    }
-
-    ll size = t.size();
-
-    string ans;
-    for(ll i = size; i >= 0; i--)
-        ans += t[i];
-
-    return ans;
-}
-
-ll Binary_to_int(vci s){
-    ll n = s.size();
-    ll ans = 0;
-    reverse(s.begin(), s.end()--);
-    forn(i,0,n)
-        if(s[i] == 1) ans += pow(2, i);
-
-    return ans;
-}
-
+ll x, y;
 
 int main (void)
 {IOS;
 
-    cout << Binary_to_int(a);
+    cout << "? ";
+    forn(i,1,101) cout << i << ' ';
+    cout << endl; cin >> x;
+    cout << "? ";
+    forn(i,1,101) cout << i * 128 << ' ';
+    cout << endl; cin >> y;
 
+    ll ans = 0;
+    forn(i,0,7) ((y >> i) & 1) ? ans += (1 << i) : ans += 0;
+    forn(i,7,14) ((x >> i) & 1) ? ans += (1 << i) : ans += 0;
+
+    cout << "! " << ans;
+    
 }

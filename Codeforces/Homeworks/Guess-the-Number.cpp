@@ -1,4 +1,4 @@
-// 57 54 46 
+// ? 57 54 46 
 #include <bits/stdc++.h> 
 using namespace std; 
 
@@ -28,40 +28,19 @@ typedef vector<char> vcc;
 const ll def = 1e6; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-string Binary(int x) {
-    string t;
-    while(x > 0){
-        if(x % 2 == 0)
-            t += "0";
-        else
-            t += "1";
-
-        x /= 2;
-    }
-
-    ll size = t.size();
-
-    string ans;
-    for(ll i = size; i >= 0; i--)
-        ans += t[i];
-
-    return ans;
-}
-
-ll Binary_to_int(vci s){
-    ll n = s.size();
-    ll ans = 0;
-    reverse(s.begin(), s.end()--);
-    forn(i,0,n)
-        if(s[i] == 1) ans += pow(2, i);
-
-    return ans;
-}
-
-
 int main (void)
 {IOS;
 
-    cout << Binary_to_int(a);
+    ll L = 0, R = def + 1;
+    while(R - L > 1){
+        ll MID = (R + L) / 2;
+
+        cout << MID << endl;
+        string res; cin >> res;
+        if(res == ">=") L = MID;
+        elif(res == "<") R = MID;
+    }
+
+    cout << "! " << L << endl;
 
 }

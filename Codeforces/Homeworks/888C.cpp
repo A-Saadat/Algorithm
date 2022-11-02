@@ -28,40 +28,32 @@ typedef vector<char> vcc;
 const ll def = 1e6; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-string Binary(int x) {
-    string t;
-    while(x > 0){
-        if(x % 2 == 0)
-            t += "0";
-        else
-            t += "1";
-
-        x /= 2;
-    }
-
-    ll size = t.size();
-
-    string ans;
-    for(ll i = size; i >= 0; i--)
-        ans += t[i];
-
-    return ans;
-}
-
-ll Binary_to_int(vci s){
-    ll n = s.size();
-    ll ans = 0;
-    reverse(s.begin(), s.end()--);
-    forn(i,0,n)
-        if(s[i] == 1) ans += pow(2, i);
-
-    return ans;
-}
-
+vci a;
 
 int main (void)
 {IOS;
 
-    cout << Binary_to_int(a);
+    string s; cin >> s;
+    ll n = s.size();
+
+    ll ans = def;   
+    forn(i,0,26){
+        a.clear();
+        char c = (char) i + 97;
+        
+        forn(i,0,n)
+            if(s[i] == c) a.pb(i + 1);
+
+        if(a.size() == 0) continue;
+
+        ll maxLenght = a[0];
+        forn(i,1,a.size()) maxLenght = max(maxLenght, a[i] - a[i - 1]);
+        maxLenght = max(maxLenght, n - a[a.size() - 1] + 1);
+        
+        // cout << c << " : MAX -> " << maxLenght << endl;
+        ans = min(ans, maxLenght);
+    }
+
+    cout << ans;
 
 }

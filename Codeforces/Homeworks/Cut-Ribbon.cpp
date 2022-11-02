@@ -1,4 +1,3 @@
-// 57 54 46 
 #include <bits/stdc++.h> 
 using namespace std; 
 
@@ -29,54 +28,27 @@ typedef vector<char> vcc;
 const ll LIMIT = 1e8; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-vci findPrime(int x){
-    bool notPrime[def];
-    vci primeNum;
-
-    for(ll i = 2; i <= x; i++){
-        for(ll j = i * i; j <= x; j+=i){
-            notPrime[j] = true;
-        }
-    }
-    forn(i,0,x) if(!notPrime[i]) primeNum.pb(i);
-
-    return primeNum;
-}
-
-vci prime;
-vci ans;
+ll x[def];
 
 int main (void)
 {IOS;
 
-    ll n, k; cin >> n >> k;
-    prime = findPrime(n);
+    ll n, a, b, c; cin >> n >> a >> b >> c;
 
-    forn(i,2,prime.size()){
-        ll cnt = 0;
+    ll ans = 0, ribbon = 0;
+    for(ll i = 0; i * a <= n; i++){
 
-        // while(n > 0){
+        for(ll j = 0; (i * a) + (j * b) <= n; j++){
+            ribbon = n - (j * b) - (i * a);
+            ll cnt = i + j;
+            if(ribbon % c == 0){
+                cnt += ribbon / c;
+                ans = max(cnt, ans);
+            }
+        }
 
-        //     n /= prime[i]; cnt++;
-
-        //     // n /= prime[i];
-        //     // ans.pb(prime[i]);
-        //     // ++cnt;
-
-        //     // if(cnt == k - 1){
-
-
-        //     //     forn(i,0,(k - 1)) cout << ans[i] << ' ';
-        //     //     cout << n << endl;
-
-        //     // }
-
-        // }
-
-        cout << prime[i] << ' ' << cnt << endl;
-            // cout << n << ' ';
-        
     }
 
+    cout << ans << endl;
 
 }

@@ -25,43 +25,39 @@ typedef vector<bool> vb;
 typedef vector<double> vd; 
 typedef vector<char> vcc; 
 
-const ll def = 1e6; 
+const ll def = 1e6;
+const ll LIMIT = 1e10; 
+const ll MOD = 1e6;
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-string Binary(int x) {
-    string t;
-    while(x > 0){
-        if(x % 2 == 0)
-            t += "0";
-        else
-            t += "1";
+i64 Needed[def], Storage[def], expcted[def];
+ll n, powder;
 
-        x /= 2;
+bool isOk(ll MID){
+    ll sum = powder;
+    forn(i,0,n){
+        if(Needed[i] * MID > Storage[i]) sum -= Needed[i] * MID - Storage[i];
+        if(sum < 0) break;
     }
 
-    ll size = t.size();
-
-    string ans;
-    for(ll i = size; i >= 0; i--)
-        ans += t[i];
-
-    return ans;
+    return sum >= 0;
 }
 
-ll Binary_to_int(vci s){
-    ll n = s.size();
-    ll ans = 0;
-    reverse(s.begin(), s.end()--);
-    forn(i,0,n)
-        if(s[i] == 1) ans += pow(2, i);
-
-    return ans;
-}
-
-
-int main (void)
+main (void)
 {IOS;
 
-    cout << Binary_to_int(a);
+    cin >> n >> powder;
+    forn(i,0,n) cin >> Needed[i];
+    forn(i,0,n) cin >> Storage[i];
+
+    ll L = 0, R = LIMIT;
+    while(R - L > 1){
+        ll MID = (R + L) / 2;
+
+        if(isOk(MID)) L = MID;
+        else R = MID;
+    }
+
+    cout << L << endl;
 
 }

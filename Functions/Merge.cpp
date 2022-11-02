@@ -28,40 +28,27 @@ typedef vector<char> vcc;
 const ll def = 1e6; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-string Binary(int x) {
-    string t;
-    while(x > 0){
-        if(x % 2 == 0)
-            t += "0";
-        else
-            t += "1";
+vci Merge(ll x[], ll sizeX, ll y[], ll sizeY){
+    vci ans;
+    ll p1 = 0, p2 = 0;
+    ll siX = sizeX, siY = sizeY;
 
-        x /= 2;
+    while(siX > 0 && siY > 0){
+        if(x[p1] < y[p2]) ans.pb(x[p1]), p1++, siX--;
+        else ans.pb(y[p2]), p2++, siY--;
     }
 
-    ll size = t.size();
-
-    string ans;
-    for(ll i = size; i >= 0; i--)
-        ans += t[i];
-
-    return ans;
-}
-
-ll Binary_to_int(vci s){
-    ll n = s.size();
-    ll ans = 0;
-    reverse(s.begin(), s.end()--);
-    forn(i,0,n)
-        if(s[i] == 1) ans += pow(2, i);
+    if(siX > 0)
+        forn(i,p1,sizeX) ans.pb(x[i]);
+    elif(siY)
+        forn(i,p2,sizeY) ans.pb(y[i]);
 
     return ans;
 }
-
 
 int main (void)
 {IOS;
 
-    cout << Binary_to_int(a);
+    
 
 }

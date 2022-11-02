@@ -2,7 +2,7 @@
 using namespace std; 
 
 #define def 10000000 
-#define forn(i,n) for(int i=0;i<n;i++) 
+#define forn(i,k,n) for(int i=k;i<n;i++) 
 #define pb push_back 
 #define F first 
 #define S second 
@@ -25,7 +25,7 @@ vci findPrime(int x){
             notPrime[j] = true;
         }
     }
-    forn(i,x) if(!notPrime[i]) primeNum.pb(i);
+    forn(i,0,x) if(!notPrime[i]) primeNum.pb(i);
 
     return primeNum;
 }

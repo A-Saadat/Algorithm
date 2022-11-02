@@ -28,40 +28,43 @@ typedef vector<char> vcc;
 const ll def = 1e6; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-string Binary(int x) {
-    string t;
-    while(x > 0){
-        if(x % 2 == 0)
-            t += "0";
-        else
-            t += "1";
 
-        x /= 2;
+ll f(ll t[], ll n, ll x){
+    ll L = 0, R = n - 1, cnt = 0;
+
+    while(R - L > 0){
+        if(t[R] + t[L] > x) R--;
+        else L++, cnt++;
     }
 
-    ll size = t.size();
-
-    string ans;
-    for(ll i = size; i >= 0; i--)
-        ans += t[i];
-
-    return ans;
+    return cnt;
 }
 
-ll Binary_to_int(vci s){
-    ll n = s.size();
-    ll ans = 0;
-    reverse(s.begin(), s.end()--);
-    forn(i,0,n)
-        if(s[i] == 1) ans += pow(2, i);
-
-    return ans;
-}
-
+ll a[def], b[def];
+vci ans;
 
 int main (void)
 {IOS;
 
-    cout << Binary_to_int(a);
+    ll n; cin >> n;
+    forn(i,0,n) cin >> a[i];
 
+    forn(k,0,60){
+
+        forn(i,0,n)
+            b[i] = a[i] % (1 << (k + 1));
+        sort(b, b + n);
+
+        ll P = f(b, n, (1 << (k + 2)) - 2) - f(b, n, (1 << k) + (1 << (k + 1)));
+        ll N = f(b, n, (1 << (k + 1)) - 1) - f(b, n, (1 << k));
+
+        // cout << P << ' ' << N << endl;
+
+        if((P + N) % 2 == 0 && P + N > 0) ans.pb(1);
+        else ans.pb(0);
+    }
+
+    // reverse(ans.begin(), ans.end());
+    forn(i,0,ans.size()) cout << ans[i] << ' ';
+    
 }
