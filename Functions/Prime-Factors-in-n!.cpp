@@ -25,28 +25,46 @@ typedef vector<bool> vb;
 typedef vector<double> vd; 
 typedef vector<char> vcc; 
 
-const ll def = 1e6; 
-const ll INF = 1e9 + 7; 
+const ll def = 1e5; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
+ll dp[def] = {0, 0, 1, 1, 2, 1, 2, 1, 3, 2, 2, 1};
+vci Prime;
+
+vci findPrime(int x){
+    bool notPrime[def];
+    vci primeNum;
+
+    for(ll i = 2; i * i <= x; i++){
+        for(ll j = i * i; j <= x; j+=i){
+            notPrime[j] = true;
+        }
+    }
+    forn(i,2,x) if(!notPrime[i]) primeNum.pb(i);
+
+    return primeNum;
+}
+
+void DPF(ll n){
+    
+    forn(i,12,(n + 2)){
+        ll tmp = i, cnt = 0, idx = 0;
+        
+        while(i % Prime[idx] != 0 && Prime[idx] <= i) ++idx;
+
+        if(i % Prime[idx] == 0)
+            dp[i] = dp[i / Prime[idx]] + 1;
+    }
+
+}
+
+ll sum[def];
 
 main ()
 {IOS;
 
-    ll t; cin >> t;
-    while(t--){
-        ll n, H, M; cin >> n >> H >> M;
-        ll Time = (H * 60) + M;
-        ll ans = 24 * 60;
-        forn(i,0,n){
-            ll h, m; cin >> h >> m;
-            ll x = ((h * 60) + m) - Time;
-            if(x < 0) x += 24 * 60;
-
-            ans = min(ans, x);
-        }
-
-        cout << ans / 60 << ' ' << ans % 60 << endl; 
-
-    }
+    Prime = findPrime(def);
+    DPF(def);
+    forn(i,0,def) sum[i] = sum[i - 1] + dp[i];
 
 }

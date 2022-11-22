@@ -34,19 +34,30 @@ main ()
 
     ll t; cin >> t;
     while(t--){
-        ll n, H, M; cin >> n >> H >> M;
-        ll Time = (H * 60) + M;
-        ll ans = 24 * 60;
-        forn(i,0,n){
-            ll h, m; cin >> h >> m;
-            ll x = ((h * 60) + m) - Time;
-            if(x < 0) x += 24 * 60;
+        ll n; cin >> n;
+        ll tmp = n;
 
-            ans = min(ans, x);
+        ll a = 0;
+        for(ll i = 2; i * i <= n; i++)
+            if(n % i == 0) { a = i; break; }
+
+        if(!a) { cout << "NO" << endl; continue; }
+         
+        tmp /= a;
+
+        ll b = 0;
+        for(ll i = 2; i * i <= tmp; i++){
+            if(tmp % i == 0 && i > a) { b = i; break; }
         }
 
-        cout << ans / 60 << ' ' << ans % 60 << endl; 
+        if(!b) { cout << "NO" << endl; continue; }
 
-    }
+        ll c = n / (a * b);
+        ll ans = a * b * c;
+        
+        if(ans != n || a == c || b == c) { cout << "NO" << endl; }
+        else cout << "YES" << endl << a << ' ' << b << ' ' << c << endl; 
+    }   
+
 
 }

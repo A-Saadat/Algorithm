@@ -29,24 +29,23 @@ const ll def = 1e6;
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
+vci a;
+si s;
+
 main ()
 {IOS;
 
     ll t; cin >> t;
     while(t--){
-        ll n, H, M; cin >> n >> H >> M;
-        ll Time = (H * 60) + M;
-        ll ans = 24 * 60;
+        a.clear(); s.clear();
+        ll n; cin >> n;
         forn(i,0,n){
-            ll h, m; cin >> h >> m;
-            ll x = ((h * 60) + m) - Time;
-            if(x < 0) x += 24 * 60;
-
-            ans = min(ans, x);
+            ll x; cin >> x;
+            s.insert(x);
         }
+        fort(itr, s) a.pb(*itr);
 
-        cout << ans / 60 << ' ' << ans % 60 << endl; 
-
+        cout << a.size() << endl;   
     }
 
 }
