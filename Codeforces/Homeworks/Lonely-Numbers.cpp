@@ -32,20 +32,34 @@ const ll def = 1e6;
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-ll a[def], Count[4]; 
+ll a[def]; 
+bool notPrime[def];
+
+void findPrime(ll x){
+    for(ll i = 2; i * i <= x; i++){
+        for(ll j = i * i; j <= x; j += i){
+            notPrime[j] = true;
+        }
+    }
+}
 
 main ()
 {IOS;
+    findPrime(1e6);
 
-    ll t; cin >> t;
-    while(t--){
-        memset(Count, 0, sizeof(Count));
-        ll n; cin >> n;
-        ll sum = 0;
-        forn(i,0,n) cin >> a[i], Count[ a[i] ]++, sum += a[i];
+    for(ll i = 2; i <= 1e6; i++){
+        if(!notPrime[i]){
+            ++a[i];
+            if(i * i <= 1e6) --a[i * i];
+        }
 
-        if(Count[1] >= 2 && sum % 2 == 0) cout << "YES" << endl;
-        else cout << "NO" << endl; 
+        a[i] += a[i - 1];
     }
 
+    int t; scanf("%d", &t);
+    while(t--){
+        int n; scanf("%d", &n);
+        printf("%d\n", (a[n] + 1));
+    }
+ 
 }

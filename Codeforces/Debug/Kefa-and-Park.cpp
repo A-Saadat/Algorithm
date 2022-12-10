@@ -32,20 +32,47 @@ const ll def = 1e6;
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-ll a[def], Count[4]; 
+ll Mark[def], Cats[def]; 
+vci G[def];
+ll cnt, ans;
+ll n, m; 
+
+void dfs(ll v){
+    Mark[v] = 1;
+    if(Cats[v]) cnt++;
+
+    forn(i,0,G[v].size()){
+        ll u = G[v][i];
+
+        cout << v << ' ' << cnt << endl;
+        if(!Mark[u]){
+            if(Cats[u] && !Cats[v]) cnt = 0;
+
+
+            // Mark[u] = 1;
+            // if(cnt > m) return; 
+            dfs(u);
+        }
+        else {
+            if(cnt <= m) cout << "ans++ " << v << endl, ans++;
+            if(Cats[u]) cnt--;
+        }
+
+    }
+}
 
 main ()
 {IOS;
 
-    ll t; cin >> t;
-    while(t--){
-        memset(Count, 0, sizeof(Count));
-        ll n; cin >> n;
-        ll sum = 0;
-        forn(i,0,n) cin >> a[i], Count[ a[i] ]++, sum += a[i];
-
-        if(Count[1] >= 2 && sum % 2 == 0) cout << "YES" << endl;
-        else cout << "NO" << endl; 
+    cin >> n >> m;
+    forn(i,1,n + 1) cin >> Cats[i];
+    forn(i,1,n){
+        ll x, y; cin >> x >> y;
+        G[x].pb(y);
+        G[y].pb(x);
     }
 
+    cout << endl;
+    dfs(1);
+    // cout << ans;
 }

@@ -11,9 +11,6 @@ using namespace std;
 #define mp make_pair 
 #define gcd __gcd 
 #define elif else if 
-#define all(v) v.begin(), v.end() 
-#define uni(v) sort(all(v)), v.erase(unique(all(v)), v.end()) 
-#define scan(a, n) for(int i = 0; i < n; i++) cin >> a[i]; 
 typedef long long int ll; 
 typedef map<string, int> msi;  
 typedef map<char, int> mci; 
@@ -32,20 +29,22 @@ const ll def = 1e6;
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-ll a[def], Count[4]; 
+ll a[def]; 
 
 main ()
 {IOS;
 
+    a[1] = 1, a[2] = 1;
     ll t; cin >> t;
     while(t--){
-        memset(Count, 0, sizeof(Count));
-        ll n; cin >> n;
-        ll sum = 0;
-        forn(i,0,n) cin >> a[i], Count[ a[i] ]++, sum += a[i];
+        ll n, x; cin >> n >> x;
+        ll idx = 3;
+        forn(i,2,n + 1){
+            ll tmp = x;
+            while(tmp--) a[idx] = i, idx++;
+        }
 
-        if(Count[1] >= 2 && sum % 2 == 0) cout << "YES" << endl;
-        else cout << "NO" << endl; 
+        cout << a[n] << endl;
     }
 
 }

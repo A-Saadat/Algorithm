@@ -4,7 +4,7 @@ using namespace std;
 
 #define forn(i,k,n) for(int i = k; i < n; i++) 
 #define fort(itr,map) for(auto itr = map.begin(); itr != map.end(); ++itr) 
-#define IOS ios_base::sync_with_stdio(false) 
+#define IOS ios_base::sync_with_stdio(false), cin.tie(0), cout.tie(0); 
 #define pb push_back 
 #define F first 
 #define S second 
@@ -28,24 +28,42 @@ typedef vector<bool> vb;
 typedef vector<double> vd; 
 typedef vector<char> vcc; 
 
-const ll def = 1e6; 
+const ll MaxN = 1e6; 
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-ll a[def], Count[4]; 
+vci adj[MaxN]; 
+ll Mark[MaxN], Parents[MaxN], Childs[MaxN];
+// ? First Vertex of Diameter
+pii FVD;
+ll MaxCnt;
+
+void dfs_FL(ll v, ll cnt){
+    Mark[v] = 1;
+    for(auto u: adj[v]){
+        if(!Mark[u]){
+            Parents[u] = v;
+            ++cnt;
+            if(cnt > MaxCnt){
+                MaxCnt = cnt;
+                FVD = mp(u, MaxCnt);
+            }
+        }
+    }
+}
 
 main ()
 {IOS;
 
-    ll t; cin >> t;
-    while(t--){
-        memset(Count, 0, sizeof(Count));
-        ll n; cin >> n;
-        ll sum = 0;
-        forn(i,0,n) cin >> a[i], Count[ a[i] ]++, sum += a[i];
-
-        if(Count[1] >= 2 && sum % 2 == 0) cout << "YES" << endl;
-        else cout << "NO" << endl; 
+    ll n, m; cin >> n >> m;
+    forn(i,0,m){
+        ll x, y; cin >> x >> y;
+        adj[x].pb(y);
+        adj[y].pb(x);
     }
+    
+    // ? Find the Furthest leaf
+    dfs_FL(1, 0);
+    cout << FVD.F << ' ' << FVD.S << endl;
 
 }

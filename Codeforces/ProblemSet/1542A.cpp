@@ -4,7 +4,7 @@ using namespace std;
 
 #define forn(i,k,n) for(int i = k; i < n; i++) 
 #define fort(itr,map) for(auto itr = map.begin(); itr != map.end(); ++itr) 
-#define IOS ios_base::sync_with_stdio(false) 
+#define IOS ios_base::sync_with_stdio(false), cin.tie(0), cout.tie(0); 
 #define pb push_back 
 #define F first 
 #define S second 
@@ -32,20 +32,24 @@ const ll def = 1e6;
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-ll a[def], Count[4]; 
+ll a[def]; 
 
 main ()
 {IOS;
 
     ll t; cin >> t;
     while(t--){
-        memset(Count, 0, sizeof(Count));
         ll n; cin >> n;
-        ll sum = 0;
-        forn(i,0,n) cin >> a[i], Count[ a[i] ]++, sum += a[i];
+        ll Odd = 0, Even = 0;
+        forn(i,0,(2 * n)){
+            cin >> a[i];
+            if(a[i] % 2 == 0) Even++;
+            else Odd++;
+        }
 
-        if(Count[1] >= 2 && sum % 2 == 0) cout << "YES" << endl;
-        else cout << "NO" << endl; 
-    }
+        if(Odd == Even && Even == n) cout << "Yes" << endl;
+        else cout << "No" << endl;
+
+    }    
 
 }

@@ -1,10 +1,10 @@
 // 57 54 46 
 #include <bits/stdc++.h> 
 using namespace std; 
-
+ 
 #define forn(i,k,n) for(int i = k; i < n; i++) 
 #define fort(itr,map) for(auto itr = map.begin(); itr != map.end(); ++itr) 
-#define IOS ios_base::sync_with_stdio(false) 
+#define IOS ios_base::sync_with_stdio(false), cin.tie(0), cout.tie(0); 
 #define pb push_back 
 #define F first 
 #define S second 
@@ -27,25 +27,38 @@ typedef vector<string> vs;
 typedef vector<bool> vb; 
 typedef vector<double> vd; 
 typedef vector<char> vcc; 
-
-const ll def = 1e6; 
+ 
+const ll def = 8e3 + 10; 
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-
-ll a[def], Count[4]; 
-
+ 
+ll a[def], cnt[def];
+ 
 main ()
 {IOS;
-
+ 
     ll t; cin >> t;
     while(t--){
-        memset(Count, 0, sizeof(Count));
+        memset(cnt, 0, sizeof(cnt));
         ll n; cin >> n;
-        ll sum = 0;
-        forn(i,0,n) cin >> a[i], Count[ a[i] ]++, sum += a[i];
-
-        if(Count[1] >= 2 && sum % 2 == 0) cout << "YES" << endl;
-        else cout << "NO" << endl; 
+        ll maxi = 0;
+        forn(i,0,n){
+            cin >> a[i];
+            maxi = max(maxi, a[i]);
+            cnt[ a[i] ]++;
+        }
+        
+        ll ans = 0;
+        forn(i,0,n){
+            ll sum = a[i];
+            forn(j,i + 1,n){
+                sum += a[j];
+                if(sum <= maxi) ans += cnt[ sum ], cnt[ sum ] = 0;
+            }
+        }
+ 
+        cout << ans << '\n';
+ 
     }
-
+ 
 }

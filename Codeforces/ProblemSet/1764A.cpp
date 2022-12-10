@@ -11,6 +11,9 @@ using namespace std;
 #define mp make_pair 
 #define gcd __gcd 
 #define elif else if 
+#define all(v) v.begin(), v.end() 
+#define uni(v) sort(all(v)), v.erase(unique(all(v)), v.end()) 
+#define scan(a, n) for(int i = 0; i < n; i++) cin >> a[i]; 
 typedef long long int ll; 
 typedef map<string, int> msi;  
 typedef map<char, int> mci; 
@@ -29,44 +32,17 @@ const ll def = 1e6;
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-ll a[def], powers[def]; 
+ll a[def]; 
 
 main ()
 {IOS;
 
     ll t; cin >> t;
     while(t--){
-
-        ll n, k; cin >> n >> k;
-        
-        forn(i,0,n) powers[i] = 1;
-        powers[0] = 1;
-        forn(i,1,(n + 1)) powers[i] = powers[i - 1] * k;
-        
+        ll n; cin >> n;
         forn(i,0,n) cin >> a[i];
-        sort(a, a + n, greater<ll>());
-        reverse(powers + 1, powers + n + 1);
 
-        bool isOk = true;
-        forn(i,1,(n + 1)){
-            bool MoreThanOnce = false;
-
-            forn(j,0,n){
-                if(a[j] >= powers[i]) cout << powers[i] << " ---> " << a[j] << endl;
-
-                // if(MoreThanOnce && a[j] >= powers[i]) { isOk = false; break; }
-                // elif(a[j] >= powers[i]) a[j] -= powers[i], MoreThanOnce = true;
-            }
-
-
-        }
-
-        // forn(i,0,n) cout << a[i] << ' ';
-            // if(a[i] > 0) { isOk = false; break; }
-
-        // if(!isOk) cout << "NO" << endl;
-        // else cout << "YES" << endl;
-
+        cout << 1 << ' ' << n << endl;
     }
 
 }

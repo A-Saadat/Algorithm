@@ -29,11 +29,44 @@ const ll def = 1e6;
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-ll a[def]; 
+ll a[def], powers[def]; 
 
 main ()
 {IOS;
 
-    string s;
+    ll t; cin >> t;
+    while(t--){
+
+        ll n, k; cin >> n >> k;
+        forn(i,0,n) cin >> a[i];
+        sort(a, a + n, greater<ll>());
+
+        // ? Find the Maximum power
+        ll maxI = 0, tmp = a[0];
+        while(tmp > 1){
+            tmp /= k;
+            maxI++;
+        }
+
+        // ? Find the Powers
+        forn(i,0,maxI) powers[i] = 1;
+        powers[0] = 1;
+        forn(i,1,maxI + 1) powers[i] = powers[i - 1] * k;
+        reverse(powers, powers + maxI + 1);
+
+        forn(i,0,maxI + 1){
+            bool isUsing = false;
+            forn(j,0,n){
+                if(a[j] >= powers[i] && !isUsing) a[j] -= powers[i], isUsing = true;
+            }
+        }
+
+        bool isOk = true;
+        forn(i,0,n) if(a[i]) isOk = false;
+
+        if(isOk) cout << "YES" << endl;
+        else cout << "NO" << endl;
+
+    }
 
 }

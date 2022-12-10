@@ -4,7 +4,7 @@ using namespace std;
 
 #define forn(i,k,n) for(int i = k; i < n; i++) 
 #define fort(itr,map) for(auto itr = map.begin(); itr != map.end(); ++itr) 
-#define IOS ios_base::sync_with_stdio(false) 
+#define IOS ios_base::sync_with_stdio(false), cin.tie(0), cout.tie(0); 
 #define pb push_back 
 #define F first 
 #define S second 
@@ -32,20 +32,44 @@ const ll def = 1e6;
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-ll a[def], Count[4]; 
+vci G[def], CC[def];
+ll Mark[def];
+
+void dfs(ll v, ll Num){
+    CC[Num].pb(v);
+    Mark[v] = Num;
+    forn(i,0,G[v].size()){
+        ll u = G[v][i];
+        if(!Mark[u]) dfs(u, Num);
+    }
+}
 
 main ()
 {IOS;
 
-    ll t; cin >> t;
-    while(t--){
-        memset(Count, 0, sizeof(Count));
-        ll n; cin >> n;
-        ll sum = 0;
-        forn(i,0,n) cin >> a[i], Count[ a[i] ]++, sum += a[i];
-
-        if(Count[1] >= 2 && sum % 2 == 0) cout << "YES" << endl;
-        else cout << "NO" << endl; 
+    ll n, m; cin >> n >> m;
+    while(m--){
+        ll x, y; cin >> x >> y;
+        G[x].pb(y);
+        G[y].pb(x);
     }
+
+    ll Num = 0;
+    forn(i,1,n + 1){
+        if(!Mark[i]) ++Num, dfs(i, Num);
+    }
+
+    // forn(i,1,4){
+    //     cout << i << ": ";
+    //     forn(j,0,CC[i].size()) cout << CC[i][j] << ' ';
+    //     cout << endl;
+    // }
+
+    forn(i,1,n + 1){
+        cout << i << ": ";
+        forn(j,0,G[i].size()) cout << G[i][j] << ' ';
+        cout << endl;
+    }
+
 
 }

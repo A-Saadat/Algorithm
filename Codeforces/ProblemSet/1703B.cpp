@@ -32,20 +32,25 @@ const ll def = 1e6;
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-ll a[def], Count[4]; 
+ll a[def]; 
+mll x;
 
 main ()
 {IOS;
 
     ll t; cin >> t;
     while(t--){
-        memset(Count, 0, sizeof(Count));
+        x.clear();
         ll n; cin >> n;
-        ll sum = 0;
-        forn(i,0,n) cin >> a[i], Count[ a[i] ]++, sum += a[i];
+        string s; cin >> s;
 
-        if(Count[1] >= 2 && sum % 2 == 0) cout << "YES" << endl;
-        else cout << "NO" << endl; 
-    }
+        ll ans = 0;
+        forn(i,0,n) {
+            if(!x[ s[i] ]) ans += 2, x[ s[i] ] = 1;
+            else ans++;
+        }
+
+        cout << ans << endl;
+    }   
 
 }

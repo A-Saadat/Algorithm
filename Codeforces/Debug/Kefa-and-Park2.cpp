@@ -32,20 +32,41 @@ const ll def = 1e6;
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-ll a[def], Count[4]; 
+ll Cats[def], Mark[def], isLeaf[def]; 
+vci G[def];
+ll n, m, ans, cnt;
+
+void dfs(ll v, ll cnt){
+    if(cnt > m) return;
+    Mark[v] = 1;
+    forn(i,0,G[v].size()){
+        ll u = G[v][i];
+        if(!Mark[u]){
+            if(!Cats[u] && Cats[v]) cnt = 0;
+            elif(Cats[u]) cnt++;
+
+            dfs(u, cnt);
+        }
+        elif(cnt <= m) ans++;
+    }
+
+}
 
 main ()
 {IOS;
 
-    ll t; cin >> t;
-    while(t--){
-        memset(Count, 0, sizeof(Count));
-        ll n; cin >> n;
-        ll sum = 0;
-        forn(i,0,n) cin >> a[i], Count[ a[i] ]++, sum += a[i];
-
-        if(Count[1] >= 2 && sum % 2 == 0) cout << "YES" << endl;
-        else cout << "NO" << endl; 
+    cin >> n >> m;
+    forn(i,1,n + 1) cin >> Cats[i]; 
+    forn(i,1,n){
+        ll x, y; cin >> x >> y;
+        G[x].pb(y);
+        G[y].pb(x); 
     }
+    forn(i,1,n + 1) 
+        if(G[i].size() == 1) isLeaf[i] = 1;
+    
+    cout << endl;
+    dfs(1, (Cats[1] ? 1 : 0));
 
+    cout << ans;
 }

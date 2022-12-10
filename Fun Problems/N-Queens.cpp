@@ -28,24 +28,36 @@ typedef vector<bool> vb;
 typedef vector<double> vd; 
 typedef vector<char> vcc; 
 
-const ll def = 1e6; 
+const ll def = 10; 
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-ll a[def], Count[4]; 
+ll Diagnal1[9][9], Diagnal2[9][9], Vertical[9][9], Horizontal[9][9]; 
+
+void Forming_the_Table(){
+
+    // ? Diagonal 1
+    forn(i,0,8){
+        ll k = 0, idx = 1;
+        for(ll j = i; (i + k <= 8 && j + k <= 8); j++){
+            // cout << i + k << ' ' << j << endl;
+            Diagnal1[i + k][j] = idx, ++k;
+            ++idx;
+        } 
+
+        cout << "---------------------\n";
+    }
+
+    forn(i,0,8){
+        forn(j,0,8) cout << Diagnal1[i][j] << ' ';
+        cout << endl;
+    }
+
+}
 
 main ()
 {IOS;
 
-    ll t; cin >> t;
-    while(t--){
-        memset(Count, 0, sizeof(Count));
-        ll n; cin >> n;
-        ll sum = 0;
-        forn(i,0,n) cin >> a[i], Count[ a[i] ]++, sum += a[i];
-
-        if(Count[1] >= 2 && sum % 2 == 0) cout << "YES" << endl;
-        else cout << "NO" << endl; 
-    }
+    Forming_the_Table();
 
 }
