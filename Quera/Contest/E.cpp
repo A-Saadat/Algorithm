@@ -14,12 +14,11 @@ using namespace std;
 #define all(v) v.begin(), v.end() 
 #define uni(v) sort(all(v)), v.erase(unique(all(v)), v.end()) 
 #define scan(a, n) for(int i = 0; i < n; i++) cin >> a[i]; 
-typedef long long int ll; 
+typedef int64_t ll; 
 typedef map<string, int> msi;  
 typedef map<char, int> mci; 
 typedef map<ll, ll> mll; 
 typedef set<int> si;  
-typedef int64_t i64; 
 typedef vector<ll> vci;
 typedef pair<int,int> pii; 
 typedef vector<pii> vpii; 
@@ -32,46 +31,49 @@ const ll MaxN = 1e6;
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-vci adj[MaxN]; 
-ll mark[MaxN], hig[MaxN];
-ll n, m;
-
-void dfs(ll v){
-    mark[v] = 1;
-    for(auto u: adj[v]){
-        if(!mark[u]){
-            hig[u] = hig[v] + 1;
-            dfs(u);
+ll cu_mult(ll a, ll b, ll c){
+    ll m = a, ans = 0;
+    while(b > 0){
+        if((b & 1)){
+            if((ans + m) < (c + c) && ans + m > c) ans = ans + m - c;
+            elif(ans + m > c) ans = (ans + m) % c;
+            else ans = ans + m;
         }
+        if((m + m) < (c + c) && m + m > c) m = m + m - c;
+        elif(m + m > c) m = (m + m) % c;
+        else m = m + m;
+        
+        b >>= 1;
     }
+
+    return ans;
 }
 
-ll Diameter(){
-    // * Find the Furthest leaf
-    ll HIG = 0, L = 0;
-    dfs(1);
-    forn(i,1,n + 1) 
-        if(HIG < hig[i]) L = i, HIG = hig[i];
+ll cu_pow(ll a, ll b, ll c){
+    ll ans = 1, p = a;
 
-    memset(mark, 0, sizeof(mark));
-    memset(hig, 0, sizeof(hig));
-    // cout << L;
-    dfs(L);
-    ll Diameter = 0;
-    forn(i,1,n + 1) Diameter = max(Diameter, hig[i]);
+    ll idx = 0;
+    while(b > 0){
+        if((b & 1)) ans = cu_mult(ans, p, c);
+        
+        p = cu_mult(p, p, c);
+        b >>= 1;
+        ++idx;
+        cout << idx << endl;
+    }
 
-    return Diameter;
+    return ans;
 }
 
-main ()
+
+int main ()
 {IOS;
 
-    cin >> n >> m;
-    forn(i,0,m){
-        ll x, y; cin >> x >> y;
-        adj[x].pb(y);
-        adj[y].pb(x);
+    ll t; cin >> t;
+    while(t--){
+        ll a, b, c; cin >> a >> b >> c;
+        ll ans = cu_pow(a, b, c);
+        cout << ans << endl;
     }
-    
-    cout << Diameter();
+
 }

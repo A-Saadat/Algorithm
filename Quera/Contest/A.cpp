@@ -4,7 +4,7 @@ using namespace std;
 
 #define forn(i,k,n) for(int i = k; i < n; i++) 
 #define fort(itr,map) for(auto itr = map.begin(); itr != map.end(); ++itr) 
-#define IOS ios_base::sync_with_stdio(false) 
+#define IOS ios_base::sync_with_stdio(false), cin.tie(0), cout.tie(0); 
 #define pb push_back 
 #define F first 
 #define S second 
@@ -28,51 +28,27 @@ typedef vector<bool> vb;
 typedef vector<double> vd; 
 typedef vector<char> vcc; 
 
-const ll def = 1e6; 
+const ll MaxN = 1e6; 
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-ll Mark[def], Cats[def]; 
-vci G[def];
-ll cnt, ans;
-ll n, m; 
+ll a[MaxN], b[MaxN]; 
 
-void dfs(ll v){
-    Mark[v] = 1;
-    if(Cats[v]) cnt++;
-
-    forn(i,0,G[v].size()){
-        ll u = G[v][i];
-
-        cout << v << ' ' << cnt << endl;
-        if(!Mark[u]){
-            if(Cats[u] && !Cats[v]) cnt = 0;
-
-
-            // Mark[u] = 1;
-            // if(cnt > m) return; 
-            dfs(u);
-        }
-        else {
-            if(cnt <= m) cout << "ans++ " << v << endl, ans++;
-            if(Cats[u]) cnt--;
-        }
-
-    }
-}
-
-main ()
+int main ()
 {IOS;
 
-    cin >> n >> m;
-    forn(i,1,n + 1) cin >> Cats[i];
-    forn(i,1,n){
-        ll x, y; cin >> x >> y;
-        G[x].pb(y);
-        G[y].pb(x);
+    ll n; cin >> n;
+    forn(i,1,n + 1) cin >> b[i];
+
+    forn(i,1,n + 1){
+        ll sum = 0;
+        forn(j, 1, i){
+            sum += a[j];
+        }
+
+        ll x = (i * b[i]) - sum;
+        a[i] = x;
+        cout << x << ' ';
     }
 
-    cout << endl;
-    dfs(1);
-    // cout << ans;
 }

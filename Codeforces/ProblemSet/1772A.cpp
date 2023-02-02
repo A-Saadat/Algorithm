@@ -4,13 +4,17 @@ using namespace std;
 
 #define forn(i,k,n) for(int i = k; i < n; i++) 
 #define fort(itr,map) for(auto itr = map.begin(); itr != map.end(); ++itr) 
-#define IOS ios_base::sync_with_stdio(false) 
+#define IOS ios_base::sync_with_stdio(false), cin.tie(0), cout.tie(0); 
 #define pb push_back 
 #define F first 
 #define S second 
 #define mp make_pair 
 #define gcd __gcd 
+#define bp __builtin_popcount 
 #define elif else if 
+#define all(v) v.begin(), v.end() 
+#define uni(v) sort(all(v)), v.erase(unique(all(v)), v.end()) 
+#define scan(a, n) for(int i = 0; i < n; i++) cin >> a[i]; 
 typedef long long int ll; 
 typedef map<string, int> msi;  
 typedef map<char, int> mci; 
@@ -25,39 +29,26 @@ typedef vector<bool> vb;
 typedef vector<double> vd; 
 typedef vector<char> vcc; 
 
-const ll def = 1e6; 
+const ll MaxN = 1e6; 
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-ll myPow(ll x, ll y){
-    if(y == 0) return 1;
-    
-    ll ans = myPow(x, y / 2) % INF;
-    ans *= ans;
-
-    if(y % 2 == 1) ans = ans * x % INF;
-    
-    return ans;
-}
-
-ll cu_Pow(ll x, ll y){
-    ll ans = 1;
-    ll p = 1;
-
-    while(y > 0){
-
-        if((p & 1)) ans = (ans * p) % INF;
-        p = (p * p) % INF; 
-        p >>= 1;
-    }
-
-    return ans;
-}
-
+ll a[MaxN]; 
 
 main ()
 {IOS;
 
-    cout << cu_Pow(2, 3);
+    ll t; cin >> t;
+    while(t--){
+        string s; cin >> s;
+        ll ans = 0;
+
+        ll n = s.size();
+        forn(i,0,n){
+            if(s[i] != '+') ans += (int) s[i] - 48;
+        }
+
+        cout << ans << endl;
+    }
 
 }

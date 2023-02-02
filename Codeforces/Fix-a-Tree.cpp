@@ -10,6 +10,7 @@ using namespace std;
 #define S second 
 #define mp make_pair 
 #define gcd __gcd 
+#define bp __builtin_popcount 
 #define elif else if 
 #define all(v) v.begin(), v.end() 
 #define uni(v) sort(all(v)), v.erase(unique(all(v)), v.end()) 
@@ -33,45 +34,69 @@ const ll INF = 1e9 + 7;
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
 vci adj[MaxN]; 
-ll mark[MaxN], hig[MaxN];
-ll n, m;
+ll a[MaxN], mark[MaxN];
+vpii cc;
 
+ll x, y; bool mk = false;
 void dfs(ll v){
+    // cout << v << ' ';
     mark[v] = 1;
-    for(auto u: adj[v]){
-        if(!mark[u]){
-            hig[u] = hig[v] + 1;
-            dfs(u);
-        }
+    for(ll u: adj[v]){
+        if(!mark[u]) dfs(u);
+        elif(u == v && !mk){
+            x = v, y = v;
+            mk = true;
+        } 
+        elif(mark[u] && !mk) x = u, y = v;
     }
 }
 
-ll Diameter(){
-    // * Find the Furthest leaf
-    ll HIG = 0, L = 0;
-    dfs(1);
-    forn(i,1,n + 1) 
-        if(HIG < hig[i]) L = i, HIG = hig[i];
-
-    memset(mark, 0, sizeof(mark));
-    memset(hig, 0, sizeof(hig));
-    // cout << L;
-    dfs(L);
-    ll Diameter = 0;
-    forn(i,1,n + 1) Diameter = max(Diameter, hig[i]);
-
-    return Diameter;
+void input(ll i){
+    ll x = a[i];
+    adj[x].pb(i);
+    adj[i].pb(x);
 }
 
 main ()
 {IOS;
-
-    cin >> n >> m;
-    forn(i,0,m){
-        ll x, y; cin >> x >> y;
-        adj[x].pb(y);
-        adj[y].pb(x);
+    bool isCir = false; ll root = 0;
+    ll n; cin >> n;
+    forn(i,1,n + 1){
+        cin >> a[i];
+        input(i);
+        if(a[i] == i && !isCir) { isCir = true; root = i; }
     }
-    
-    cout << Diameter();
+
+    ll ans = 0;
+    if(!isCir){
+        forn(i,1,n + 1){
+            uni(adj[i]);
+            if(adj[i].size() >= 2) {
+                ++ans;
+                root = i;
+                a[i] = i;
+                break;
+            }
+        }
+    }
+
+    forn(i,1,n + 1) adj[i].clear();
+
+    forn(i,1,n + 1) input(i);
+
+    forn(i,1,n + 1){
+        x = 0, y = 0;
+        if(!mark[i]){
+            mk = false;
+            dfs(i);
+            ans++;
+            a[x] = root;
+        } 
+
+    }
+
+    cout << ans - 1 << endl;
+    forn(i,1,n + 1) cout << a[i] << ' ';
+
+
 }

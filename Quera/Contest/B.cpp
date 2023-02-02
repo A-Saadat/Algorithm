@@ -32,46 +32,35 @@ const ll MaxN = 1e6;
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-vci adj[MaxN]; 
-ll mark[MaxN], hig[MaxN];
-ll n, m;
+ll a[MaxN], sum[MaxN]; 
+ll odd[MaxN], even[MaxN];
 
-void dfs(ll v){
-    mark[v] = 1;
-    for(auto u: adj[v]){
-        if(!mark[u]){
-            hig[u] = hig[v] + 1;
-            dfs(u);
-        }
-    }
-}
-
-ll Diameter(){
-    // * Find the Furthest leaf
-    ll HIG = 0, L = 0;
-    dfs(1);
-    forn(i,1,n + 1) 
-        if(HIG < hig[i]) L = i, HIG = hig[i];
-
-    memset(mark, 0, sizeof(mark));
-    memset(hig, 0, sizeof(hig));
-    // cout << L;
-    dfs(L);
-    ll Diameter = 0;
-    forn(i,1,n + 1) Diameter = max(Diameter, hig[i]);
-
-    return Diameter;
-}
-
-main ()
+int main ()
 {IOS;
 
-    cin >> n >> m;
-    forn(i,0,m){
-        ll x, y; cin >> x >> y;
-        adj[x].pb(y);
-        adj[y].pb(x);
+    ll n; cin >> n;
+    forn(i,1,n + 1) cin >> a[i];
+
+    forn(i, 1, n + 1) sum[i] = sum[i - 1] + a[i];
+    forn(i,1, n + 1){
+        if(i % 2 == 0){
+            even[i] = even[i - 1] + a[i];
+            odd[i] = odd[i - 1];
+        }
+        else{
+            odd[i] = odd[i - 1] + a[i];
+            even[i] = even[i - 1];
+        }
+    }   
+
+    ll t; cin >> t;
+    while(t--){
+        ll L, R; cin >> L >> R;
+
+        ll ans = 0;
+        if(L % 2 == 1) ans = (sum[R] - sum[L - 1]) - ((even[R] - even[L - 1]) * 2);
+        else ans = (sum[R] - sum[L - 1]) - ((odd[R] - odd[L - 1]) * 2);
+
+        cout << ans << endl;
     }
-    
-    cout << Diameter();
 }

@@ -10,10 +10,11 @@ using namespace std;
 #define S second 
 #define mp make_pair 
 #define gcd __gcd 
+#define bp __builtin_popcount 
 #define elif else if 
 #define all(v) v.begin(), v.end() 
 #define uni(v) sort(all(v)), v.erase(unique(all(v)), v.end()) 
-#define scan(a, n) for(int i = 0; i < n; i++) cin >> a[i]; 
+#define err(x) cout << '#' << x << ':' << ' ' << x << endl 
 typedef long long int ll; 
 typedef map<string, int> msi;  
 typedef map<char, int> mci; 
@@ -32,46 +33,33 @@ const ll MaxN = 1e6;
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-vci adj[MaxN]; 
-ll mark[MaxN], hig[MaxN];
-ll n, m;
+ll mark[MaxN]; 
+vci adj[MaxN];
+queue<ll> q;
 
-void dfs(ll v){
-    mark[v] = 1;
-    for(auto u: adj[v]){
-        if(!mark[u]){
-            hig[u] = hig[v] + 1;
-            dfs(u);
+void bfs(ll v){
+    while(!q.empty()){
+        ll h = q.front();
+
+        for(ll u: adj[h]){
+            if(!mark[u]) q.push(u);
+            mark[u] = 1;
         }
+
+        q.pop();
     }
-}
-
-ll Diameter(){
-    // * Find the Furthest leaf
-    ll HIG = 0, L = 0;
-    dfs(1);
-    forn(i,1,n + 1) 
-        if(HIG < hig[i]) L = i, HIG = hig[i];
-
-    memset(mark, 0, sizeof(mark));
-    memset(hig, 0, sizeof(hig));
-    // cout << L;
-    dfs(L);
-    ll Diameter = 0;
-    forn(i,1,n + 1) Diameter = max(Diameter, hig[i]);
-
-    return Diameter;
 }
 
 main ()
 {IOS;
 
-    cin >> n >> m;
+    ll n, m; cin >> n >> m;
     forn(i,0,m){
         ll x, y; cin >> x >> y;
         adj[x].pb(y);
         adj[y].pb(x);
     }
-    
-    cout << Diameter();
+
+    q.push(1), mark[1] = 1, bfs(1);
+
 }

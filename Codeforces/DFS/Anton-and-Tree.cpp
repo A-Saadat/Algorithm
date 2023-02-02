@@ -33,16 +33,16 @@ const ll INF = 1e9 + 7;
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
 vci adj[MaxN]; 
-ll mark[MaxN], hig[MaxN];
-ll n, m;
+ll mark[MaxN], hig[MaxN], col[MaxN];
+ll n;
 
 void dfs(ll v){
+    bool flag = false;
+    // cout << v << ": ";
     mark[v] = 1;
     for(auto u: adj[v]){
-        if(!mark[u]){
-            hig[u] = hig[v] + 1;
-            dfs(u);
-        }
+        if(!mark[u] && col[u] == !col[v]) hig[u] = hig[v] + 1;
+        if(!mark[u]) dfs(u);
     }
 }
 
@@ -66,12 +66,16 @@ ll Diameter(){
 main ()
 {IOS;
 
-    cin >> n >> m;
-    forn(i,0,m){
+    cin >> n;
+    forn(i,1,n + 1) cin >> col[i];
+    forn(i,1,n){
         ll x, y; cin >> x >> y;
         adj[x].pb(y);
         adj[y].pb(x);
     }
     
-    cout << Diameter();
+    ll ans = Diameter();
+    if(ans % 2 != 0) ++ans;
+
+    cout << ans / 2;
 }

@@ -10,6 +10,7 @@ using namespace std;
 #define S second 
 #define mp make_pair 
 #define gcd __gcd 
+#define bp __builtin_popcount 
 #define elif else if 
 #define all(v) v.begin(), v.end() 
 #define uni(v) sort(all(v)), v.erase(unique(all(v)), v.end()) 
@@ -32,46 +33,47 @@ const ll MaxN = 1e6;
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-vci adj[MaxN]; 
-ll mark[MaxN], hig[MaxN];
-ll n, m;
+vci adj[MaxN];
+ll mark[MaxN];
+vpii cc;
+
+ll mini = MaxN, maxi = 0;
 
 void dfs(ll v){
+    mini = min(v, mini);
+    maxi = max(v, maxi);
+
     mark[v] = 1;
-    for(auto u: adj[v]){
-        if(!mark[u]){
-            hig[u] = hig[v] + 1;
-            dfs(u);
-        }
-    }
-}
-
-ll Diameter(){
-    // * Find the Furthest leaf
-    ll HIG = 0, L = 0;
-    dfs(1);
-    forn(i,1,n + 1) 
-        if(HIG < hig[i]) L = i, HIG = hig[i];
-
-    memset(mark, 0, sizeof(mark));
-    memset(hig, 0, sizeof(hig));
-    // cout << L;
-    dfs(L);
-    ll Diameter = 0;
-    forn(i,1,n + 1) Diameter = max(Diameter, hig[i]);
-
-    return Diameter;
+    for(ll u: adj[v])
+        if(!mark[u]) dfs(u);
 }
 
 main ()
 {IOS;
 
-    cin >> n >> m;
+    ll n, m; cin >> n >> m;
     forn(i,0,m){
         ll x, y; cin >> x >> y;
         adj[x].pb(y);
         adj[y].pb(x);
     }
-    
-    cout << Diameter();
-}
+
+    forn(i,1,n + 1){
+        mini = MaxN, maxi = 0;
+        if(!mark[i]) dfs(i);
+        if(mini == MaxN || maxi == 0) continue;
+
+        cc.pb( mp(mini, maxi) );
+    }
+
+    sort( all(cc) );
+
+    ll R = cc[0].S, ans = 0;
+    forn(i,1,cc.size()){
+        if(cc[i].F < R) ans++;
+        ll c = cc[i].S;
+        R = max(R, c);
+    }
+
+    cout << ans << endl;
+}   

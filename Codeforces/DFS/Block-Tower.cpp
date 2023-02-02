@@ -28,50 +28,67 @@ typedef vector<bool> vb;
 typedef vector<double> vd; 
 typedef vector<char> vcc; 
 
-const ll MaxN = 1e6; 
+const ll MaxN = 1e3; 
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
 vci adj[MaxN]; 
-ll mark[MaxN], hig[MaxN];
-ll n, m;
+char a[MaxN][MaxN]; 
+ll mark[MaxN][MaxN];
 
-void dfs(ll v){
-    mark[v] = 1;
-    for(auto u: adj[v]){
-        if(!mark[u]){
-            hig[u] = hig[v] + 1;
-            dfs(u);
-        }
+ll n, m;
+ll G[] = {1, -1, 0, 0};
+ll H[] = {0, 0, 1, -1};
+
+void dfs(ll x, ll y){
+    mark[x][y] = 1;
+
+    bool isBlue = false;
+    forn(i,0,4){
+        ll nnx = G[i] + x;
+        ll nny = H[i] + y;
+
+        if(nnx > n || nnx < 0 || nny > m || nny < 0) continue;
+        if(a[nnx][nny] == 'B') isBlue = true;
+    }
+
+    if(isBlue) a[x][y] = 'R';
+    elif(a[x][y] != 'R') a[x][y] = 'B';
+
+    forn(i,0,4){
+        ll nx = G[i] + x;
+        ll ny = H[i] + y;
+
+        if(nx > n || nx < 0 || ny > m || ny < 0) continue;
+        if(mark[nx][ny] || a[nx][ny] == '#') continue;
+
+        dfs(nx, ny);
     }
 }
 
-ll Diameter(){
-    // * Find the Furthest leaf
-    ll HIG = 0, L = 0;
-    dfs(1);
-    forn(i,1,n + 1) 
-        if(HIG < hig[i]) L = i, HIG = hig[i];
 
-    memset(mark, 0, sizeof(mark));
-    memset(hig, 0, sizeof(hig));
-    // cout << L;
-    dfs(L);
-    ll Diameter = 0;
-    forn(i,1,n + 1) Diameter = max(Diameter, hig[i]);
-
-    return Diameter;
-}
 
 main ()
 {IOS;
 
     cin >> n >> m;
-    forn(i,0,m){
-        ll x, y; cin >> x >> y;
-        adj[x].pb(y);
-        adj[y].pb(x);
+    forn(i,0,n)
+        forn(j,0,m) cin >> a[i][j];    
+
+    forn(i,0,n)
+        forn(j,0,m) 
+            if(a[i][j] == '.' && !mark[i][j]) dfs(i, j);
+
+    memset(mark, 0, sizeof(mark));
+        
+    forn(i,0,n)
+        forn(j,0,m) 
+            if(a[i][j] != '#' && !mark[i][j]) dfs(i, j);
+
+    forn(i,0,n){
+        forn(j,0,m) cout << a[i][j] << ' ';
+        cout << endl;
     }
-    
-    cout << Diameter();
+            // if(a[i][j] == 'R' || a[i][j] == 'B') cout << a[i][j] << ' ' << i + 1 << ' ' << j + 1 << endl;
+
 }

@@ -4,12 +4,13 @@ using namespace std;
 
 #define forn(i,k,n) for(int i = k; i < n; i++) 
 #define fort(itr,map) for(auto itr = map.begin(); itr != map.end(); ++itr) 
-#define IOS ios_base::sync_with_stdio(false) 
+#define IOS ios_base::sync_with_stdio(false), cin.tie(0), cout.tie(0); 
 #define pb push_back 
 #define F first 
 #define S second 
 #define mp make_pair 
 #define gcd __gcd 
+#define bp __builtin_popcount 
 #define elif else if 
 #define all(v) v.begin(), v.end() 
 #define uni(v) sort(all(v)), v.erase(unique(all(v)), v.end()) 
@@ -28,45 +29,28 @@ typedef vector<bool> vb;
 typedef vector<double> vd; 
 typedef vector<char> vcc; 
 
-const ll def = 1e6; 
+const ll MaxN = 1e6; 
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-ll Cats[def], Mark[def], isLeaf[def]; 
-vci G[def];
-ll n, m, ans, cnt;
+ll a[MaxN]; 
 
-void dfs(ll v, ll cnt){
-    if(cnt > m) return;
-    Mark[v] = 1;
-    forn(i,0,G[v].size()){
-        ll u = G[v][i];
-        if(!Mark[u]){
-            if(!Cats[u] && Cats[v]) cnt = 0;
-            elif(Cats[u]) cnt++;
+ll cu_mult(ll a, ll b){
+    ll ans = 0, m = a;
+    while(b > 0){
+        if(b & 1) ans = (ans + m) % INF;
 
-            dfs(u, cnt);
-        }
-        elif(cnt <= m) ans++;
+        m = (m + m) % INF;
+        b >>= 1;
     }
 
+    return ans;
 }
 
 main ()
 {IOS;
 
-    cin >> n >> m;
-    forn(i,1,n + 1) cin >> Cats[i]; 
-    forn(i,1,n){
-        ll x, y; cin >> x >> y;
-        G[x].pb(y);
-        G[y].pb(x); 
-    }
-    forn(i,1,n + 1) 
-        if(G[i].size() == 1) isLeaf[i] = 1;
-    
-    cout << endl;
-    dfs(1, (Cats[1] ? 1 : 0));
+    ll a, b; cin >> a >> b;
+    cout << cu_mult(a, b) % INF;
 
-    cout << ans;
 }

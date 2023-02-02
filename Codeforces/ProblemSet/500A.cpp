@@ -32,46 +32,28 @@ const ll MaxN = 1e6;
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-vci adj[MaxN]; 
-ll mark[MaxN], hig[MaxN];
-ll n, m;
+ll a[MaxN], mark[MaxN]; 
+vci adj[MaxN];
 
 void dfs(ll v){
     mark[v] = 1;
-    for(auto u: adj[v]){
-        if(!mark[u]){
-            hig[u] = hig[v] + 1;
-            dfs(u);
-        }
-    }
-}
-
-ll Diameter(){
-    // * Find the Furthest leaf
-    ll HIG = 0, L = 0;
-    dfs(1);
-    forn(i,1,n + 1) 
-        if(HIG < hig[i]) L = i, HIG = hig[i];
-
-    memset(mark, 0, sizeof(mark));
-    memset(hig, 0, sizeof(hig));
-    // cout << L;
-    dfs(L);
-    ll Diameter = 0;
-    forn(i,1,n + 1) Diameter = max(Diameter, hig[i]);
-
-    return Diameter;
+    for(ll u: adj[v])
+        if(!mark[u]) dfs(u);
 }
 
 main ()
 {IOS;
 
-    cin >> n >> m;
-    forn(i,0,m){
-        ll x, y; cin >> x >> y;
-        adj[x].pb(y);
-        adj[y].pb(x);
-    }
-    
-    cout << Diameter();
+    ll n, t; cin >> n >> t;
+    forn(i,1,n) cin >> a[i];
+
+    forn(i,1,n)
+        if(a[i] + i <= n)
+            adj[i].pb(i + a[i]);
+
+    dfs(1);
+
+    if(mark[t]) cout << "YES" << endl;
+    else cout << "NO" << endl;
+
 }

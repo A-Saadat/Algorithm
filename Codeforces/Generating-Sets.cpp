@@ -10,10 +10,11 @@ using namespace std;
 #define S second 
 #define mp make_pair 
 #define gcd __gcd 
+#define bp __builtin_popcount 
 #define elif else if 
 #define all(v) v.begin(), v.end() 
 #define uni(v) sort(all(v)), v.erase(unique(all(v)), v.end()) 
-#define scan(a, n) for(int i = 0; i < n; i++) cin >> a[i]; 
+#define err(x) cout << '#' << x << ':' << ' ' << x << endl 
 typedef long long int ll; 
 typedef map<string, int> msi;  
 typedef map<char, int> mci; 
@@ -32,46 +33,31 @@ const ll MaxN = 1e6;
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-vci adj[MaxN]; 
-ll mark[MaxN], hig[MaxN];
-ll n, m;
-
-void dfs(ll v){
-    mark[v] = 1;
-    for(auto u: adj[v]){
-        if(!mark[u]){
-            hig[u] = hig[v] + 1;
-            dfs(u);
-        }
-    }
-}
-
-ll Diameter(){
-    // * Find the Furthest leaf
-    ll HIG = 0, L = 0;
-    dfs(1);
-    forn(i,1,n + 1) 
-        if(HIG < hig[i]) L = i, HIG = hig[i];
-
-    memset(mark, 0, sizeof(mark));
-    memset(hig, 0, sizeof(hig));
-    // cout << L;
-    dfs(L);
-    ll Diameter = 0;
-    forn(i,1,n + 1) Diameter = max(Diameter, hig[i]);
-
-    return Diameter;
-}
+set<ll> s, ans;
+ll mark[MaxN];
 
 main ()
 {IOS;
 
-    cin >> n >> m;
-    forn(i,0,m){
-        ll x, y; cin >> x >> y;
-        adj[x].pb(y);
-        adj[y].pb(x);
+    ll n; cin >> n;
+    forn(i,0,n){
+        ll x; cin >> x;
+        s.insert(x);
     }
-    
-    cout << Diameter();
+
+    while(n--){
+        auto itr = (--s.end());
+        ll maxi = *itr, tmp = maxi;
+
+
+        while(s.count(maxi) || ans.count(maxi)) maxi /= 2;
+        // maxi > 0 ? err(maxi) : err(tmp);
+
+        s.erase(itr);
+        if(maxi > 0) ans.insert(maxi);
+        elif(maxi == 0) ans.insert(tmp);
+    }
+
+    fort(i, ans) cout << *i << ' ';
+
 }
