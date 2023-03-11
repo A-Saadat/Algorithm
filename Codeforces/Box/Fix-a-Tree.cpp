@@ -39,7 +39,6 @@ vpii cc;
 
 ll x, y; bool mk = false;
 void dfs(ll v){
-    // cout << v << ' ';
     mark[v] = 1;
     for(ll u: adj[v]){
         if(!mark[u]) dfs(u);
@@ -81,7 +80,6 @@ main ()
     }
 
     forn(i,1,n + 1) adj[i].clear();
-
     forn(i,1,n + 1) input(i);
 
     forn(i,1,n + 1){
@@ -90,7 +88,8 @@ main ()
             mk = false;
             dfs(i);
             ans++;
-            a[x] = root;
+            if(a[x] == y) a[x] = root;
+            else a[y] = root;
         } 
 
     }

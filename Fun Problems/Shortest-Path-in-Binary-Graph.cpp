@@ -16,48 +16,60 @@ using namespace std;
 #define uni(v) sort(all(v)), v.erase(unique(all(v)), v.end()) 
 #define err(x) cout << '#' << x << ':' << ' ' << x << endl 
 typedef long long int ll; 
-typedef map<string, int> msi;  
-typedef map<char, int> mci; 
 typedef map<ll, ll> mll; 
 typedef set<int> si;  
-typedef int64_t i64; 
+typedef pair<ll,ll> pii; 
 typedef vector<ll> vci;
-typedef pair<int,int> pii; 
 typedef vector<pii> vpii; 
 typedef vector<string> vs; 
-typedef vector<bool> vb; 
-typedef vector<double> vd; 
 typedef vector<char> vcc; 
 
 const ll MaxN = 1e6; 
 const ll INF = 1e9 + 7; 
-const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-set<ll> s, ans;
-ll mark[MaxN];
+vector< pair<int, int> > adj[MaxN];
+int hig[MaxN], mark[MaxN];
 
-main ()
+void bfs(ll v){
+    deque<int> dq;
+
+    dq.push_back(v); mark[v] = 1;
+    while(!dq.empty()){
+        ll h = dq.back();
+        dq.pop_back();
+
+        for(auto u: adj[h]){
+            if(mark[u.F]) continue;
+
+            if(u.S == 1){
+                dq.push_front(u.F);
+                hig[u.F] = hig[h] + 1;
+            } 
+            else{
+                dq.push_back(u.F);
+                hig[u.F] = hig[h];
+            } 
+
+            mark[u.F] = 1;
+        }
+
+    }
+
+}
+
+main()
 {IOS;
 
-    ll n; cin >> n;
-    forn(i,0,n){
-        ll x; cin >> x;
-        s.insert(x);
+    int n, m; cin >> n >> m;
+    forn(i,0,m){
+        ll x, y, val; cin >> x >> y >> val;
+        adj[x].pb( {y, val} );
+        adj[y].pb( {x, val} );
     }
 
-    while(n--){
-        auto itr = (--s.end());
-        ll maxi = *itr, tmp = maxi;
-
-
-        while(s.count(maxi) || ans.count(maxi)) maxi /= 2;
-        // maxi > 0 ? err(maxi) : err(tmp);
-
-        s.erase(itr);
-        if(maxi > 0) ans.insert(maxi);
-        elif(maxi == 0) ans.insert(tmp);
-    }
-
-    fort(i, ans) cout << *i << ' ';
-
+    int l, r; cin >> l >> r;
+    hig[l] = 0;
+    bfs(l);
+    
+    cout << hig[r];
 }

@@ -9,7 +9,6 @@ string reference, test;
 intl psb, smpSpace, voidSpace, testRes, mainRes, ans;
 bool useState[def];
 
-int factorial(int n);
 void backTrack(int x);
 
 int main (void)
