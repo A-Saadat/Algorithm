@@ -22,7 +22,14 @@ int dp[MaxN][MaxN], val[MaxN][MaxN];
 int n, m; 
 
 void Update_dp(int S){ // ? the S is a Binary number that every "on bit" like <i>, will represent that the number i, is On the Set of Numbers that we are checking
+    cout << S << " -> ";
+    forn(i,0,10) cout << ((S >> i) & 1);
+    cout << endl;
+    
     forn(i,1,n + 1){
+
+        if(dp[S][i]) continue;
+
         if( !((S >> (i - 1)) & 1) ) { // ? if the Number i, doesn't exist in S 
             dp[S][i] = -INF; // * this dp is not allowed because it will never happend
             continue;
@@ -37,7 +44,11 @@ void Update_dp(int S){ // ? the S is a Binary number that every "on bit" like <i
         }
 
         dp[S][i] = mini;
+        cout << "dp[" << S << "][" << i << "] = " << dp[S][i] << endl;
+
     }
+
+    cout << "\n---------\n";
 
 }
 
@@ -52,15 +63,17 @@ main()
     }
 
     for(int mask = 1; mask < (1 << n); mask++){
-        if(__builtin_popcount(mask) == 1){
-            int idx = -1;
-            forn(i,0,30) 
-                if( ((mask >> i) & 1) ) idx = i + 1;
+        if((mask & 1) && __builtin_popcount(mask) == 2){
             
-            forn(i,1,n + 1) dp[mask][i] = val[idx][i]; // ? Create the Foundemental states in dp Array
+            int idx = -1;
+            forn(i,1,32)
+                if( (mask >> i) & 1 ) idx = i + 1;
+
+            dp[mask][idx] = val[idx][1];
+            // cout << mask << " -> " << idx << ": " << dp[mask][1] << endl;
 
         }
-    } 
+    }
 
     for(int mask = 1; mask < (1 << n); mask++)
         Update_dp(mask); // ? for every set of numbers we will find the answer
