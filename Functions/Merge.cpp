@@ -1,52 +1,104 @@
-// 57 54 46 
 #include <bits/stdc++.h> 
 using namespace std; 
 
-#define forn(i,k,n) for(int i = k; i < n; i++) 
+#define IOS ios_base::sync_with_stdio(false), cin.tie(0), cout.tie(0) 
 #define fort(itr,map) for(auto itr = map.begin(); itr != map.end(); ++itr) 
-#define IOS ios_base::sync_with_stdio(false) 
 #define pb push_back 
+#define elif else if 
 #define F first 
 #define S second 
-#define mp make_pair 
-#define gcd __gcd 
-#define elif else if 
-typedef long long int ll; 
-typedef map<string, int> msi;  
-typedef map<char, int> mci; 
-typedef map<ll, ll> mll; 
-typedef set<int> si;  
-typedef int64_t i64; 
-typedef vector<ll> vci;
-typedef pair<int,int> pii; 
-typedef vector<pii> vpii; 
-typedef vector<string> vs; 
-typedef vector<bool> vb; 
-typedef vector<double> vd; 
-typedef vector<char> vcc; 
+#define all(v) v.begin(), v.end() 
+#define uni(v) sort(all(v)), v.erase(unique(all(v)), v.end()) 
+#define int long long 
+typedef vector<int> vi;
 
-const ll def = 1e6; 
-const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+const int MAX = 1e6; 
+const int INF = 1e9 + 7; 
 
-vci Merge(ll x[], ll sizeX, ll y[], ll sizeY){
-    vci ans;
-    ll p1 = 0, p2 = 0;
-    ll siX = sizeX, siY = sizeY;
+int mark[MAX]; 
 
-    while(siX > 0 && siY > 0){
-        if(x[p1] < y[p2]) ans.pb(x[p1]), p1++, siX--;
-        else ans.pb(y[p2]), p2++, siY--;
+vector<int> merge( vector<int> A, vector<int> B ){
+    vector<int> ans;
+    int a = A.size(), b = B.size();
+    int i = 0, j = 0;
+
+    int cnt = 0;
+    while(i < a && j < b){
+        if(A[i] > B[j]) ans.pb(B[j]), j++;
+        else ans.pb(A[i]), i++;
+        cnt++;
     }
 
-    if(siX > 0)
-        forn(i,p1,sizeX) ans.pb(x[i]);
-    elif(siY)
-        forn(i,p2,sizeY) ans.pb(y[i]);
+    while(i < a){
+        ans.pb(A[i]);
+        i++;
+        cnt++;
+    }
+
+    while(j < b){
+        ans.pb(B[j]);
+        j++;
+        cnt++;
+    }
 
     return ans;
 }
 
-int main (void)
+vector<int> merge_Uniq( vector<int> A, vector<int> B, int id ){
+    vector<int> ans;
+    int a = A.size(), b = B.size();
+    int i = 0, j = 0;
+
+    int cnt = 0;
+    while(cnt < 10 && i < a && j < b){
+        if(mark[ A[i] ] == id){
+            i++;
+            continue;
+        } 
+        if(mark[ B[j] ] == id){
+            j++;
+            continue;
+        } 
+
+        if(A[i] > B[j]){
+            mark[ B[j] ] = id;
+            ans.pb(B[j]);
+            j++;
+        }
+        else{
+            mark[ A[i] ] = id;
+            ans.pb(A[i]);
+            i++;
+        }
+    }
+
+    cnt++;
+
+    while(cnt < 10 && i < a){
+        if(mark[ A[i] ] == id){
+            i++;
+            continue;
+        } 
+        
+        ans.pb(A[i]);
+        i++;
+        cnt++;
+    }
+    while(cnt < 10 && j < b){
+        if(mark[ B[j] ] == id){
+            j++;
+            continue;
+        } 
+        
+        ans.pb(B[j]);
+        j++;
+        cnt++;
+    }
+
+    return ans;
+}
+
+main()
 {IOS;
 
     

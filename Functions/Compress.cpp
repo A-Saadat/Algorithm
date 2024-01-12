@@ -29,7 +29,8 @@ const ll def = 1e6;
 const ll INF = 1e9 + 7; 
 const char alphabet[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-ll a[def]; 
+int a[10] = {1, 100, 20, 56, 34, 12, 3, 44, 77, 91};
+
 
 void Compress(ll n){
     vci v;
@@ -45,7 +46,9 @@ void Compress(ll n){
 
 main ()
 {IOS;
-
     
+    // int a[10] = {1, 100, 20, 56, 34, 12, 3, 44, 77, 91};
+    Compress(10);
+    for(int i = 1; i <= 10; i++) cout << a[i] << endl;
 
 }

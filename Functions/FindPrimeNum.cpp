@@ -48,6 +48,6 @@ vci findPrime(ll x){
 main ()
 {IOS;
 
-    Prime = findPrime(1e6);
-    cout << "Size: " << Prime.size() << endl;
+    Prime = findPrime(1e5 + 10);
+    
 }
